@@ -44,4 +44,16 @@ class Review(models.Model):
 
 
 class ShoppingCart(models.Model):
-    pass
+    customer = models.ForeignKey(User, on_delete=CASCADE)
+
+    def __str__(self):
+        return f'{self.customer}\'s Cart'
+
+
+class ShoppingCartItem(models.Model):
+    album = models.ForeignKey(Album, on_delete=CASCADE)
+    quantity = models.IntegerField(default=1)
+    cart = models.ForeignKey(ShoppingCart, on_delete=CASCADE)
+
+    def __str__(self):
+        return f'{self.cart.customer} - {self.album}'
