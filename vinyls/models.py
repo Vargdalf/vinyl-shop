@@ -34,7 +34,7 @@ class Track(models.Model):
 
 
 class Review(models.Model):
-    author = models.ForeignKey(User, on_delete=CASCADE)
+    author = models.ForeignKey('auth.User', related_name='reviews', on_delete=CASCADE)
     album = models.ForeignKey(Album, related_name='reviews', on_delete=CASCADE)
     rating = models.IntegerField()
     content = models.TextField()
@@ -45,14 +45,14 @@ class Review(models.Model):
 
 
 class ShoppingCart(models.Model):
-    customer = models.ForeignKey(User, on_delete=CASCADE)
+    customer = models.ForeignKey('auth.User', related_name='cart', on_delete=CASCADE)
 
     def __str__(self):
         return f'{self.customer}\'s Cart'
 
 
 class ShoppingCartItem(models.Model):
-    album = models.ForeignKey(Album, related_name='items', on_delete=CASCADE)
+    album = models.ForeignKey(Album, related_name='shopping_cart_items', on_delete=CASCADE)
     quantity = models.IntegerField(default=1)
     cart = models.ForeignKey(ShoppingCart, related_name='cart_items', on_delete=CASCADE)
 
