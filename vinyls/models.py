@@ -90,11 +90,6 @@ class ShoppingCartItem(models.Model):
         ordering = ['date_added', 'pk']
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    wish_list = ''
-
-
 class WishList(models.Model):
     owner = models.ForeignKey(User, related_name='wishlist', on_delete=models.CASCADE)
 
