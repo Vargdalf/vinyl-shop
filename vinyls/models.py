@@ -5,6 +5,9 @@ from django.db import models
 class Genre(models.Model):
     name = models.CharField(max_length=100)
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
@@ -13,16 +16,16 @@ class Album(models.Model):
     title = models.CharField(max_length=150)
     artist = models.CharField(max_length=150)
     year = models.DateField()
-    genre = models.ManyToManyField(Genre)
+    genre = models.ManyToManyField(Genre, related_name='albums')
     duration = models.TimeField()
     label = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=7, decimal_places=2)
 
-    def __str__(self):
-        return f'{self.title} by {self.artist}'
-
     class Meta:
         ordering = ['artist']
+
+    def __str__(self):
+        return f'{self.title} by {self.artist}'
 
 
 class Track(models.Model):
@@ -83,11 +86,11 @@ class ShoppingCartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     date_added = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f'{self.cart.owner} - {self.album}'
-
     class Meta:
         ordering = ['date_added', 'pk']
+
+    def __str__(self):
+        return f'{self.cart.owner} - {self.album}'
 
 
 class WishList(models.Model):
