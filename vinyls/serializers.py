@@ -10,13 +10,13 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    tracks = serializers.StringRelatedField(many=True)
+    tracks = serializers.StringRelatedField(many=True, read_only=True)
     genres = GenreSerializer(many=True)
-    reviews = serializers.PrimaryKeyRelatedField(many=True, read_only=True)  # Hyperlink Related Field
+    reviews = serializers.PrimaryKeyRelatedField(many=True, read_only=True)  # Hyperlink Related Field or serializer
 
     class Meta:
         model = Album
-        fields = ['title', 'artist', 'year', 'duration', 'label', 'price']
+        fields = ['title', 'artist', 'year', 'genres', 'duration', 'label', 'price', 'tracks', 'reviews']
 
 
 class ReviewSerializer(serializers.ModelSerializer):

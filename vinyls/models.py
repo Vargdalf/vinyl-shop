@@ -12,11 +12,12 @@ class Genre(models.Model):
         return self.name
 
 
+# TODO: genre -> genres
 class Album(models.Model):
     title = models.CharField(max_length=150)
     artist = models.CharField(max_length=150)
     year = models.DateField()
-    genre = models.ManyToManyField(Genre, related_name='albums')
+    genres = models.ManyToManyField(Genre, related_name='albums')
     duration = models.TimeField()
     label = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=7, decimal_places=2)
@@ -52,7 +53,7 @@ class Review(models.Model):
         return f'{self.rating}/5 - {self.owner}'
 
 
-# TODO: total_discount
+# TODO: get_total, total_discount
 class ShoppingCart(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
