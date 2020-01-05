@@ -12,7 +12,6 @@ class Genre(models.Model):
         return self.name
 
 
-# TODO: genre -> genres
 class Album(models.Model):
     title = models.CharField(max_length=150)
     artist = models.CharField(max_length=150)

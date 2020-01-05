@@ -10,27 +10,27 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AlbumSerializer(serializers.ModelSerializer):
-    tracks = serializers.StringRelatedField(many=True, read_only=True)
-    genres = GenreSerializer(many=True)
-    reviews = serializers.PrimaryKeyRelatedField(many=True, read_only=True)  # Hyperlink Related Field or serializer
-
-    class Meta:
-        model = Album
-        fields = ['title', 'artist', 'year', 'genres', 'duration', 'label', 'price', 'tracks', 'reviews']
-
-
-class ReviewSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Review
-        fields = ['rating', 'content', 'created_at', 'owner']
+        fields = ['id', 'album', 'url', 'rating', 'content', 'created_at', 'owner']
 
 
-class UserSerializer(serializers.ModelSerializer):
+class AlbumSerializer(serializers.HyperlinkedModelSerializer):
+    tracks = serializers.StringRelatedField(many=True, read_only=True)
+    genres = GenreSerializer(many=True)
+    reviews = ReviewSerializer(many=True)
+
+    class Meta:
+        model = Album
+        fields = ['id', 'url', 'title', 'artist', 'year', 'genres', 'duration', 'label', 'price', 'tracks', 'reviews']
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
     reviews = serializers.PrimaryKeyRelatedField(many=True, queryset=Review.objects.all())
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'reviews']
+        fields = ['id', 'url', 'username', 'reviews']
