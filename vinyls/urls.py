@@ -1,18 +1,15 @@
 from django.urls import path, include
-from vinyls import views
+from rest_framework.routers import DefaultRouter
+
+from vinyls.views import GenreListView, AlbumViewSet, ReviewViewSet, UserViewSet
+
+router = DefaultRouter()
+router.register(r'albums', AlbumViewSet)
+router.register(r'reviews', ReviewViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    path('', views.api_root),
-    path('genres/', views.GenreListView.as_view(), name='genre-list'),
-    path('albums/', views.AlbumListView.as_view(), name='album-list'),
-    path('albums/<int:pk>/', views.AlbumDetailView.as_view(), name='album-detail'),
-    path('reviews/', views.ReviewListView.as_view(), name='review-list'),
-    path('reviews/<int:pk>/', views.ReviewDetailView.as_view(), name='review-detail'),
-    path('users/', views.UserListView.as_view(), name='user-list'),
-    path('users/<int:pk>/', views.UserDetailView.as_view(), name='user-detail'),
-]
-
-# Login
-urlpatterns += [
+    path('', include(router.urls)),
+    path('genres/', GenreListView.as_view(), name='genre-list'),
     path('api-auth/', include('rest_framework.urls')),
 ]
