@@ -34,6 +34,9 @@ class Track(models.Model):
     duration = models.TimeField()
     album = models.ForeignKey(Album, related_name='tracks', on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['order']
+
     def __str__(self):
         return f'{self.order}: {self.title}'
 
@@ -49,9 +52,9 @@ class Review(models.Model):
         return f'{self.rating}/5 - {self.owner}'
 
 
-# TODO: get_total, total_discount
+# TODO: total_discount
 class ShoppingCart(models.Model):
-    owner = models.ForeignKey(User, related_name='cart', on_delete=models.CASCADE)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
         return f'{self.owner}\'s Cart'
@@ -79,6 +82,9 @@ class ShoppingCart(models.Model):
     def all_items(self):
         return self.items.all()
 
+    def get_total(self):
+        pass
+
 
 class ShoppingCartItem(models.Model):
     cart = models.ForeignKey(ShoppingCart, related_name='items', on_delete=models.CASCADE)
@@ -94,7 +100,7 @@ class ShoppingCartItem(models.Model):
 
 
 class WishList(models.Model):
-    owner = models.ForeignKey(User, related_name='wishlist', on_delete=models.CASCADE)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
         return f'{self.owner}\'s Wishlist'
