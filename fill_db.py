@@ -36,11 +36,11 @@ def add_objects():
     coltrane.save()
     discipline.save()
 
-    red.genre.add(prog)
-    malomiasteczkowy.genre.add(indie)
-    painkiller.genre.add(metal)
-    coltrane.genre.add(jazz)
-    discipline.genre.add(prog)
+    red.genres.add(prog)
+    malomiasteczkowy.genres.add(indie)
+    painkiller.genres.add(metal)
+    coltrane.genres.add(jazz)
+    discipline.genres.add(prog)
 
     for album in Album.objects.all():
         for i in range(1, 6):
