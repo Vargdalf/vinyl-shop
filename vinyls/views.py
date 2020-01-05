@@ -1,6 +1,8 @@
-from rest_framework import generics
+from django.contrib.auth.models import User
+from rest_framework import generics, permissions
 from vinyls.models import Genre, Album, Review
-from vinyls.serializers import GenreSerializer, AlbumSerializer, ReviewSerializer
+from vinyls.permissions import IsOwnerOrReadOnly
+from vinyls.serializers import GenreSerializer, AlbumSerializer, ReviewSerializer, UserSerializer
 
 
 class GenreListView(generics.ListCreateAPIView):
@@ -21,8 +23,24 @@ class AlbumDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ReviewListView(generics.ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly]
+
+
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
