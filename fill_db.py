@@ -4,8 +4,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shop.settings')
 django.setup()
 
-from django.contrib.auth.models import User
-from vinyls.models import Genre, Album, Track, Review
+from vinyls.models import Genre, Album, Track, Review, User
 
 
 def add_objects():

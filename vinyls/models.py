@@ -1,5 +1,10 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+
+class User(AbstractUser):
+    class Meta:
+        ordering = ['username']
 
 
 class Genre(models.Model):
@@ -48,6 +53,9 @@ class Review(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['created_at']
+
     def __str__(self):
         return f'{self.rating}/5 - {self.owner}'
 
@@ -55,6 +63,9 @@ class Review(models.Model):
 # TODO: get_total, total_discount
 class ShoppingCart(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+    class Meta:
+        ordering = ['owner']
 
     def __str__(self):
         return f'{self.owner}\'s Cart'
@@ -101,6 +112,9 @@ class ShoppingCartItem(models.Model):
 
 class WishList(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+    class Meta:
+        ordering = ['owner']
 
     def __str__(self):
         return f'{self.owner}\'s Wishlist'
