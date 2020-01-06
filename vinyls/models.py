@@ -2,9 +2,12 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class User(AbstractUser):
+class CustomUser(AbstractUser):
     class Meta:
         ordering = ['username']
+
+    def __str__(self):
+        return self.username
 
 
 class Genre(models.Model):
@@ -47,7 +50,7 @@ class Track(models.Model):
 
 
 class Review(models.Model):
-    owner = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE)
+    owner = models.ForeignKey(CustomUser, related_name='reviews', on_delete=models.CASCADE)
     album = models.ForeignKey(Album, related_name='reviews', on_delete=models.CASCADE)
     rating = models.IntegerField()
     content = models.TextField()
@@ -62,7 +65,7 @@ class Review(models.Model):
 
 # TODO: get_total, total_discount
 class ShoppingCart(models.Model):
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    owner = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         ordering = ['owner']
@@ -111,7 +114,7 @@ class ShoppingCartItem(models.Model):
 
 
 class WishList(models.Model):
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    owner = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         ordering = ['owner']

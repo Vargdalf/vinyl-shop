@@ -1,8 +1,8 @@
 from rest_framework import generics, permissions, viewsets
 
-from vinyls.models import Genre, Album, Review, User
+from vinyls.models import Genre, Album, Review, CustomUser
 from vinyls.permissions import IsOwnerOrReadOnly
-from vinyls.serializers import GenreSerializer, AlbumSerializer, ReviewSerializer, UserSerializer
+from vinyls.serializers import GenreSerializer, AlbumSerializer, ReviewSerializer, CustomUserSerializer
 
 
 class GenreListView(generics.ListCreateAPIView):
@@ -26,5 +26,5 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer

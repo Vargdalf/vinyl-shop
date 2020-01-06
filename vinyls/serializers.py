@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from vinyls.models import Genre, Album, Review, User
+from vinyls.models import Genre, Album, Review, CustomUser
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -10,7 +10,6 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
-    # owner = serializers.ReadOnlyField(source='owner.username')
     owner = serializers.HyperlinkedRelatedField(read_only=True, view_name='user-detail')
 
     class Meta:
@@ -28,9 +27,9 @@ class AlbumSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'url', 'title', 'artist', 'year', 'genres', 'duration', 'label', 'price', 'tracks', 'reviews']
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     reviews = ReviewSerializer(many=True)
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['id', 'url', 'username', 'reviews']

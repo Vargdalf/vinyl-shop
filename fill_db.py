@@ -4,7 +4,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shop.settings')
 django.setup()
 
-from vinyls.models import Genre, Album, Track, Review, User
+from vinyls.models import Genre, Album, Track, Review, CustomUser
 
 
 def add_objects():
@@ -45,9 +45,9 @@ def add_objects():
         for i in range(1, 6):
             Track.objects.create(title=f'Test{i}', order=i, duration='00:05:00', album=album)
 
-    user1 = User.objects.create_user('user1', password='testpass')
-    user2 = User.objects.create_user('user2', password='testpass')
-    user3 = User.objects.create_user('user3', password='testpass')
+    user1 = CustomUser.objects.create_user('user1', password='testpass')
+    user2 = CustomUser.objects.create_user('user2', password='testpass')
+    user3 = CustomUser.objects.create_user('user3', password='testpass')
 
     Review.objects.create(owner=user1, album=red, rating=5, content='Pretty Good')
     Review.objects.create(owner=user1, album=malomiasteczkowy, rating=4, content='Holy Molly')
