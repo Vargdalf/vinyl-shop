@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
 from rest_framework import generics, permissions, viewsets
 
-from vinyls.models import Genre, Album, Review
+from vinyls.models import Genre, Album, Review, User
 from vinyls.permissions import IsOwnerOrReadOnly
 from vinyls.serializers import GenreSerializer, AlbumSerializer, ReviewSerializer, UserSerializer
 

@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from vinyls.models import Genre, Album, Review
+from vinyls.models import Genre, Album, Review, User
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -11,11 +10,12 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
+    # owner = serializers.ReadOnlyField(source='owner.username')
+    owner = serializers.HyperlinkedRelatedField(read_only=True, view_name='user-detail')
 
     class Meta:
         model = Review
-        fields = ['id', 'album', 'url', 'rating', 'content', 'created_at', 'owner']
+        fields = ['id', 'url', 'album', 'rating', 'content', 'created_at', 'owner']
 
 
 class AlbumSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,7 +29,7 @@ class AlbumSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    reviews = serializers.PrimaryKeyRelatedField(many=True, queryset=Review.objects.all())
+    reviews = ReviewSerializer(many=True)
 
     class Meta:
         model = User
