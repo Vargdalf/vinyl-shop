@@ -11,5 +11,4 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('genres/', GenreListView.as_view(), name='genre-list'),
-    path('api-auth/', include('rest_framework.urls')),
 ]
