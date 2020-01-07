@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
     'rest_auth',
     'rest_auth.registration',
     'vinyls',
@@ -123,7 +126,25 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'vinyls.CustomUser'
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': ''
+        }
+    }
+}
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
