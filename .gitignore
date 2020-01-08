@@ -131,3 +131,18 @@ dmypy.json
 .pyre/
 
 .idea/
+
+# react
+.DS_*
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
