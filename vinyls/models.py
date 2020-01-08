@@ -63,7 +63,6 @@ class Review(models.Model):
         return f'{self.rating}/5 - {self.owner}'
 
 
-# TODO: get_total, total_discount
 class ShoppingCart(models.Model):
     owner = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
 
@@ -77,7 +76,7 @@ class ShoppingCart(models.Model):
         self.items.all().delete()
 
     def add_album(self, album):
-        if not self.id:
+        if not self.pk:
             self.save()
         items = self.items.filter(album=album)
         if len(items) == 0:
@@ -88,16 +87,22 @@ class ShoppingCart(models.Model):
             item.save()
 
     def is_empty(self):
-        return self.id is None or self.num_items == 0
+        return self.num_items() == 0
 
     def num_items(self):
-        return self.all_items().count()
+        total = 0
+        for item in self.all_items():
+            total += item.quantity
+        return total
 
     def all_items(self):
         return self.items.all()
 
     def get_total(self):
-        pass
+        total = 0
+        for item in self.all_items():
+            total += item.album.price * item.quantity
+        return int(total)
 
 
 class ShoppingCartItem(models.Model):
@@ -110,7 +115,7 @@ class ShoppingCartItem(models.Model):
         ordering = ['date_added', 'pk']
 
     def __str__(self):
-        return f'{self.cart.owner} - {self.album}'
+        return f'{self.album} x {self.quantity}'
 
 
 class WishList(models.Model):
