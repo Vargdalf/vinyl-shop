@@ -10,7 +10,7 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.HyperlinkedRelatedField(read_only=True, view_name='user-detail')
+    owner = serializers.HyperlinkedRelatedField(read_only=True, view_name='customuser-detail')
 
     class Meta:
         model = Review
