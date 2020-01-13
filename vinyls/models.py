@@ -85,15 +85,13 @@ class ShoppingCart(models.Model):
     def clear_cart(self):
         self.items.all().delete()
 
-    def add_album(self, album):
-        if not self.pk:
-            self.save()
+    def add_album(self, album, quantity=1):
         items = self.items.filter(album=album)
         if len(items) == 0:
             self.items.create(album=album)
         else:
             item = items[0]
-            item.quantity += 1
+            item.quantity += quantity
             item.save()
 
     def is_empty(self):
@@ -122,7 +120,7 @@ class ShoppingCartItem(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['date_added', 'pk']
+        ordering = ['-date_added']
 
     def __str__(self):
         return f'{self.album} x {self.quantity}'
