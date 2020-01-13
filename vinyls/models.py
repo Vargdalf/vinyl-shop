@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.signals import post_save
 
 
 class CustomUser(AbstractUser):
@@ -8,6 +9,15 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    @classmethod
+    def post_create(cls, sender, instance, created, *args, **kwargs):
+        if not created:
+            return
+        ShoppingCart.objects.create(owner=instance)
+
+
+post_save.connect(CustomUser.post_create, sender=CustomUser)
 
 
 class Genre(models.Model):
