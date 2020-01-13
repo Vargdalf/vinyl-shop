@@ -15,6 +15,7 @@ class CustomUser(AbstractUser):
         if not created:
             return
         ShoppingCart.objects.create(owner=instance)
+        WishList.objects.create(owner=instance)
 
 
 post_save.connect(CustomUser.post_create, sender=CustomUser)
@@ -135,6 +136,9 @@ class WishList(models.Model):
     def __str__(self):
         return f'{self.owner}\'s Wishlist'
 
+    def clear_wishlist(self):
+        self.items.all().delete()
+
     def add_album(self, album):
         items = self.items.filter(album=album)
         if len(items) == 0:
@@ -144,6 +148,9 @@ class WishList(models.Model):
             item.quantity += 1
             item.save()
 
+    def all_items(self):
+        return self.items.all()
+
 
 class WishListItem(models.Model):
     wishlist = models.ForeignKey(WishList, related_name='items', on_delete=models.CASCADE)
@@ -151,7 +158,7 @@ class WishListItem(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['date_added', 'pk']
+        ordering = ['-date_added']
 
     def __str__(self):
         return f'{self.album.title} on {self.wishlist.owner}\'s Wishlist'
