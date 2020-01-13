@@ -6,6 +6,7 @@ Example e-commerce site for a fictional records shop.
 
 * [Django](https://www.djangoproject.com/)
 * [Django Rest Framework](https://www.django-rest-framework.org/)
+* [ReactJS](https://reactjs.org/)
  
  ## Authors
 
