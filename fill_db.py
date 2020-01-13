@@ -56,6 +56,8 @@ def add_objects():
     Review.objects.create(owner=user2, album=red, rating=1, content='Aweful, Blue is so much better')
     Review.objects.create(owner=user3, album=painkiller, rating=4, content='I only listen to metal')
 
+    CustomUser.objects.create_superuser(username='admin', password='admin')
+
 
 if __name__ == '__main__':
     add_objects()
