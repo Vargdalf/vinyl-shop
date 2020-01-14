@@ -3,7 +3,7 @@ from rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 
 from vinyls.models import Genre, Album, Review, CustomUser, ShoppingCart, ShoppingCartItem
-from vinyls.permissions import IsOwnerOrReadOnly
+from vinyls.permissions import IsOwnerOrReadOnly, IsOwner
 from vinyls.serializers import GenreSerializer, AlbumSerializer, ReviewSerializer, CustomUserSerializer, \
     ShoppingCartSerializer, ShoppingCartItemSerializer
 
@@ -36,7 +36,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class ShoppingCartViewSet(viewsets.ModelViewSet):
     queryset = ShoppingCart.objects.all()
     serializer_class = ShoppingCartSerializer
-    permission_classes = [permissions.DjangoObjectPermissions]
+    permission_classes = [IsOwner]
 
 
 class ShoppingCartItemViewSet(viewsets.ModelViewSet):
