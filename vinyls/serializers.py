@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from vinyls.models import Genre, Album, Review, CustomUser
+from vinyls.models import Genre, Album, Review, CustomUser, ShoppingCart, ShoppingCartItem
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -27,9 +27,27 @@ class AlbumSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'url', 'title', 'artist', 'year', 'genres', 'duration', 'label', 'price', 'tracks', 'reviews']
 
 
+class ShoppingCartItemSerializer(serializers.HyperlinkedModelSerializer):
+    album = AlbumSerializer()
+
+    class Meta:
+        model = ShoppingCartItem
+        fields = ['id', 'url', 'album', 'quantity', 'date_added']
+
+
+class ShoppingCartSerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.HyperlinkedRelatedField(read_only=True, view_name='customuser-detail')
+    items = ShoppingCartItemSerializer(many=True)
+
+    class Meta:
+        model = ShoppingCart
+        fields = ['url', 'owner', 'items']
+
+
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     reviews = ReviewSerializer(many=True)
+    shopping_cart = ShoppingCartSerializer()
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'url', 'username', 'reviews']
+        fields = ['id', 'url', 'username', 'reviews', 'shopping_cart']

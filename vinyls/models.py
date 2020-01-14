@@ -75,7 +75,7 @@ class Review(models.Model):
 
 
 class ShoppingCart(models.Model):
-    owner = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    owner = models.OneToOneField(CustomUser, related_name='shopping_cart', on_delete=models.CASCADE, primary_key=True)
 
     class Meta:
         ordering = ['owner']

@@ -2,9 +2,10 @@ from rest_framework import generics, permissions, viewsets
 from rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 
-from vinyls.models import Genre, Album, Review, CustomUser
+from vinyls.models import Genre, Album, Review, CustomUser, ShoppingCart, ShoppingCartItem
 from vinyls.permissions import IsOwnerOrReadOnly
-from vinyls.serializers import GenreSerializer, AlbumSerializer, ReviewSerializer, CustomUserSerializer
+from vinyls.serializers import GenreSerializer, AlbumSerializer, ReviewSerializer, CustomUserSerializer, \
+    ShoppingCartSerializer, ShoppingCartItemSerializer
 
 
 class GenreListView(generics.ListCreateAPIView):
@@ -30,6 +31,17 @@ class ReviewViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+
+class ShoppingCartViewSet(viewsets.ModelViewSet):
+    queryset = ShoppingCart.objects.all()
+    serializer_class = ShoppingCartSerializer
+    permission_classes = [permissions.DjangoObjectPermissions]
+
+
+class ShoppingCartItemViewSet(viewsets.ModelViewSet):
+    queryset = ShoppingCartItem.objects.all()
+    serializer_class = ShoppingCartItemSerializer
 
 
 class GoogleLoginView(SocialLoginView):

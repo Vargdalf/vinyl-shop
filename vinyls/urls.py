@@ -1,12 +1,15 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from vinyls.views import GenreListView, AlbumViewSet, ReviewViewSet, UserViewSet, GoogleLoginView
+from vinyls.views import GenreListView, AlbumViewSet, ReviewViewSet, UserViewSet, ShoppingCartViewSet, \
+    ShoppingCartItemViewSet, GoogleLoginView
 
 router = DefaultRouter()
 router.register(r'albums', AlbumViewSet)
 router.register(r'reviews', ReviewViewSet)
 router.register(r'users', UserViewSet)
+router.register(r'cart', ShoppingCartViewSet)
+router.register(r'cart-item', ShoppingCartItemViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
