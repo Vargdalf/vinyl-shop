@@ -32,7 +32,7 @@ class ShoppingCartItemSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = ShoppingCartItem
-        fields = ['id', 'url', 'album', 'quantity', 'date_added']
+        fields = ['album', 'quantity', 'date_added']
 
 
 class ShoppingCartSerializer(serializers.HyperlinkedModelSerializer):

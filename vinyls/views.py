@@ -39,10 +39,5 @@ class ShoppingCartViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwner]
 
 
-class ShoppingCartItemViewSet(viewsets.ModelViewSet):
-    queryset = ShoppingCartItem.objects.all()
-    serializer_class = ShoppingCartItemSerializer
-
-
 class GoogleLoginView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
