@@ -42,6 +42,7 @@ class ShoppingCartSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ShoppingCart
         fields = ['url', 'owner', 'items']
+        extra_kwargs = {'url': {'lookup_field': 'slug'}}
 
 
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):

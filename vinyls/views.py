@@ -2,10 +2,10 @@ from rest_framework import generics, permissions, viewsets
 from rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 
-from vinyls.models import Genre, Album, Review, CustomUser, ShoppingCart, ShoppingCartItem
+from vinyls.models import Genre, Album, Review, CustomUser, ShoppingCart
 from vinyls.permissions import IsOwnerOrReadOnly, IsOwner
 from vinyls.serializers import GenreSerializer, AlbumSerializer, ReviewSerializer, CustomUserSerializer, \
-    ShoppingCartSerializer, ShoppingCartItemSerializer
+    ShoppingCartSerializer
 
 
 class GenreListView(generics.ListCreateAPIView):
@@ -33,19 +33,13 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CustomUserSerializer
 
 
-# # TODO: Change this viewset into some more appropriate views
-# class ShoppingCartViewSet(viewsets.ModelViewSet):
-#     queryset = ShoppingCart.objects.all()
-#     serializer_class = ShoppingCartSerializer
-#     permission_classes = [IsOwner]
-
-
 class ShoppingCartEditView(generics.RetrieveUpdateAPIView):
     serializer_class = ShoppingCartSerializer
     permission_classes = [IsOwner]
+    lookup_field = 'slug'
 
     def get_queryset(self):
-        return ShoppingCart.objects.all().filter(owner=self.request.user)
+        return ShoppingCart.objects.all()
 
 
 class GoogleLoginView(SocialLoginView):
