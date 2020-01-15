@@ -44,3 +44,5 @@ class ShoppingCartEditView(generics.RetrieveUpdateAPIView):
 
 class GoogleLoginView(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
+
+# TODO: Find a way to access other views with slugs
