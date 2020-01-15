@@ -33,10 +33,19 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CustomUserSerializer
 
 
-class ShoppingCartViewSet(viewsets.ModelViewSet):
-    queryset = ShoppingCart.objects.all()
+# # TODO: Change this viewset into some more appropriate views
+# class ShoppingCartViewSet(viewsets.ModelViewSet):
+#     queryset = ShoppingCart.objects.all()
+#     serializer_class = ShoppingCartSerializer
+#     permission_classes = [IsOwner]
+
+
+class ShoppingCartEditView(generics.RetrieveUpdateAPIView):
     serializer_class = ShoppingCartSerializer
     permission_classes = [IsOwner]
+
+    def get_queryset(self):
+        return ShoppingCart.objects.all().filter(owner=self.request.user)
 
 
 class GoogleLoginView(SocialLoginView):
